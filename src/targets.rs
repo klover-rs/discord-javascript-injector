@@ -3,7 +3,7 @@ use std::path::PathBuf;
 #[cfg(target_os = "linux")]
 use crate::constants::CONFIG_FOLDER;
 #[cfg(target_os = "windows")]
-use crate::constants::APP_DATA;
+use crate::constants::LOCAL_APP_DATA;
 
 use crate::{constants::DISCORD_VARIANTS, util::get_folder_name};
 
