@@ -34,3 +34,6 @@ fn main() {
 
 }
 ```
+
+### Check it out on crates.io!
+I also created a library on crates.io, here is the [link](https://crates.io/crates/discord_injector-lib) to it
