@@ -1,0 +1,12 @@
+[package]
+name = "discord_injector-lib"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde_json = "1"
+asar = "0.3.0"
+walkdir = "2.5.0"
+dirs = "5.0.1"
+anyhow = "1.0.86"
+serde = { version = "1.0.204", features = ["derive"] }
