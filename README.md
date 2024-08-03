@@ -5,7 +5,7 @@ With this project you can inject any kind of javascript you want into the discor
 
 ~~Please note that only windows is yet developed, linux support is coming next~~
 welp, that is now done!
-if you have installed discord with a .deb file it should be in your .config folder
+if you have installed discord with a .deb file the folder containing the core.asar file should be in your .config folder
 
 ## Next goal
 - macOS support
