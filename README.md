@@ -3,7 +3,14 @@ This is a rust library which allows you to inject javascript into the discord de
 
 With this project you can inject any kind of javascript you want into the discord client, the javascript code is attached to the renderer process, so you have access to the DOM etc
 
-Please note that only windows is yet developed, linux support is coming next
+~~Please note that only windows is yet developed, linux support is coming next~~
+welp, that is now done!
+if you have installed discord with a .deb file it should be in your .config folder
+
+## Next goal
+- macOS support
+- flatpak support for linux
+- snap (for linux) support will be investigated in the future.
 
 example usage
 ```rs
