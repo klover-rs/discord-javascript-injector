@@ -3,6 +3,8 @@ This is a rust library which allows you to inject javascript into the discord de
 
 With this project you can inject any kind of javascript you want into the discord client, the javascript code is attached to the renderer process, so you have access to the DOM etc
 
+Please note that only windows is yet developed, linux support is coming next
+
 example usage
 ```rs
 use inject::inject;
