@@ -37,3 +37,6 @@ fn main() {
 
 ### Check it out on crates.io!
 I also created a library on crates.io, here is the [link](https://crates.io/crates/discord_injector-lib) to it
+
+### IMPORTANT
+This project might break your client. in case of client breaks, please reinstall discord for your platform. 
