@@ -1,7 +1,12 @@
 use std::{fs, time::Duration};
 use anyhow::{Result, anyhow};
 
-use crate::{constants::{CORE_ASAR_BACKUP_FILE, CORE_ASAR_FILE}, targets::{self, find_target_client_path}, util::{get_executable_path, get_pid_by_name, search_file, start_process_detached_, terminate_process_by_pid}}; 
+use crate::{constants::{CORE_ASAR_BACKUP_FILE, CORE_ASAR_FILE}, targets::{self, find_target_client_path}, util::search_file}; 
+
+
+#[cfg(target_os = "windows")]
+use crate::util::{get_pid_by_name, get_executable_path, terminate_process_by_pid, start_process_detached_};
+
 
 pub fn eject(which_discord: &str) -> Result<()> {
 

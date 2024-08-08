@@ -1,8 +1,11 @@
 use std::{fs::{self, File}, io::{BufRead, BufReader, Write}, path::PathBuf};
 use anyhow::{anyhow, Result};
 use std::time::Duration;
-use crate::{asar::*, constants::{CORE_ASAR_BACKUP_FILE, CORE_ASAR_FILE}, targets::{self, find_target_client_path}, util::{search_file, get_pid_by_name, get_executable_path, terminate_process_by_pid, start_process_detached_}};
+use crate::{asar::*, constants::{CORE_ASAR_BACKUP_FILE, CORE_ASAR_FILE}, targets::{self, find_target_client_path}, util::search_file};
 use futures_util::SinkExt;
+
+#[cfg(target_os = "windows")]
+use crate::util::{get_pid_by_name, get_executable_path, terminate_process_by_pid, start_process_detached_};
 
 use tokio_tungstenite::connect_async;
 use tokio_tungstenite::tungstenite::Message;

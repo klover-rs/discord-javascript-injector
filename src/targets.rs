@@ -4,6 +4,8 @@ use std::path::PathBuf;
 use crate::constants::CONFIG_FOLDER;
 #[cfg(target_os = "windows")]
 use crate::constants::LOCAL_APP_DATA;
+#[cfg(target_os = "macos")]
+use crate::constants::APP_SUPPORT_FOLDER;
 
 use crate::{constants::DISCORD_VARIANTS, util::get_folder_name};
 
@@ -15,6 +17,8 @@ pub fn get_discord_path() -> Vec<PathBuf> {
     base_path.push(LOCAL_APP_DATA);
     #[cfg(target_os = "linux")]
     base_path.push(CONFIG_FOLDER);
+    #[cfg(target_os = "macos")]
+    base_path.push(APP_SUPPORT_FOLDER);
     
     for variant in &DISCORD_VARIANTS {
         let mut discord_path = base_path.clone();

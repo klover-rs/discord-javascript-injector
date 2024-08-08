@@ -1,10 +1,14 @@
 fn main() {
-    println!("cargo:rustc-link-search=native=cpp");
 
-    println!("cargo:rustc-link-lib=static=windows_process");
+    if cfg!(target_os = "windows") {
+        println!("cargo:rustc-link-search=native=cpp");
 
-    cc::Build::new()
-        .cpp(true)
-        .file("src/windows/process.cpp")
-        .compile("windows_process");
+        println!("cargo:rustc-link-lib=static=windows_process");
+    
+        cc::Build::new()
+            .cpp(true)
+            .file("src/windows/process.cpp")
+            .compile("windows_process");
+    }
+   
 }
