@@ -8,7 +8,7 @@ welp, that is now done!
 if you have installed discord with a .deb file the folder containing the core.asar file should be in your .config folder
 
 ## Next goal
-- macOS support
+- ~~macOS support~~ i am happy to announce that macOS support has been added! (thank you for not letting me down my dear m1 macbook air)
 - flatpak support for linux
 - snap (for linux) support will be investigated in the future.
 
