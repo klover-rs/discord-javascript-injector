@@ -58,15 +58,45 @@ pub fn extract_asar(asar_file: &PathBuf, output: &PathBuf) -> AsarResult<()> {
     Ok(())
 }
 
+
 use tokio_tungstenite::tungstenite::Message;
 use futures_util::sink::SinkExt;
 use tokio_tungstenite::WebSocketStream;
 use tokio::net::TcpStream;
 use tokio_tungstenite::MaybeTlsStream;
-pub async fn extract_asar_ws(asar_file: &PathBuf, output: &PathBuf, ws_stream: &mut WebSocketStream<MaybeTlsStream<TcpStream>>) -> AsarResult<String> {
 
+
+pub async fn pack_asar_ws(path: &PathBuf, dest: &PathBuf, ws_stream: &mut WebSocketStream<MaybeTlsStream<TcpStream>>) -> AnyResult<()> {
+    let mut writer = AsarWriter::new_with_algorithm(HashAlgorithm::Sha256);
 
     
+    for entry in WalkDir::new(path) {
+        let entry = entry?;
+        if entry.file_type().is_file() {
+            let file_content = fs::read(entry.path())?;
+
+            let relative_path = entry.path().strip_prefix(path)?;
+            let relative_path_str = relative_path.to_str().unwrap_or("");
+            writer.write_file(&relative_path_str, &file_content, false)?;
+
+            let progress = format!("packing: {}", &relative_path_str);
+
+            println!("{}", &progress);
+
+            ws_stream.send(Message::Text(progress)).await.unwrap();
+        }
+    }
+
+    let mut output_file = File::create(dest)?;
+    let bytes_written = writer.finalize(&mut output_file)?;
+
+    println!("wrote {} bytes to {:?}", bytes_written * 1000, dest);
+
+    Ok(())
+}
+
+pub async fn extract_asar_ws(asar_file: &PathBuf, output: &PathBuf, ws_stream: &mut WebSocketStream<MaybeTlsStream<TcpStream>>) -> AsarResult<String> {
+
     let asar_file = fs::read(asar_file)?;
     let asar = AsarReader::new(&asar_file, None)?;
 
