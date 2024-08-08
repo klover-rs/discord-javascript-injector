@@ -22,7 +22,12 @@ tokio-tungstenite = "0.16"
 tungstenite = "0.17"
 futures-util = "0.3.30"
 tokio = { version = "1.39.2", features = ["full"] }
-
+swc_ecma_ast = "0.118.0"
+swc_common = "0.37.0"
+swc_ecma_codegen = "0.155.0"
+swc_ecma_parser = "0.149.0"
+swc_ecma_transforms_typescript = "0.195.1"
+swc_ecma_visit = "0.104.2"
 
 
 [build-dependencies]
