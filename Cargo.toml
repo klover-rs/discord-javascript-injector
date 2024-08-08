@@ -16,3 +16,14 @@ walkdir = "2.5.0"
 dirs = "5.0.1"
 anyhow = "1.0.86"
 serde = { version = "1.0.204", features = ["derive"] }
+rayon = "1.10.0"
+url = "2.5.2"
+tokio-tungstenite = "0.16"
+tungstenite = "0.17"
+futures-util = "0.3.30"
+tokio = { version = "1.39.2", features = ["full"] }
+
+
+
+[build-dependencies]
+cc = "1.1.7"
