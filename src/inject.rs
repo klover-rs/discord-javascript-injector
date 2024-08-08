@@ -2,11 +2,12 @@ use std::{fs::{self, File}, io::{BufRead, BufReader, Write}, path::PathBuf};
 use anyhow::{anyhow, Result};
 use std::time::Duration;
 use crate::{asar::*, constants::{CORE_ASAR_BACKUP_FILE, CORE_ASAR_FILE}, targets::{self, find_target_client_path}, util::{search_file, get_pid_by_name, get_executable_path, terminate_process_by_pid, start_process_detached_}};
-
+use futures_util::SinkExt;
 
 use tokio_tungstenite::connect_async;
+use tokio_tungstenite::tungstenite::Message;
 
-use swc_common::{input::SourceFileInput, SourceMap};
+use swc_common::SourceMap;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
@@ -118,10 +119,6 @@ pub async fn inject_ws(which_discord: &str, javascript_to_inject: &str, is_types
                 javascript_to_inject.to_string()
             };
 
-            println!("javascript content: {}\ntrue: {}", javascript_content, is_typescript);
-
-            tokio::time::sleep(Duration::from_secs(10)).await;
-
             inject_javascript("inject.js", &javascript_content, &dest_path.join("app"))?;
 
             pack_asar_ws(&dest_path, &path.join(CORE_ASAR_FILE), &mut ws_stream).await?;
@@ -133,7 +130,7 @@ pub async fn inject_ws(which_discord: &str, javascript_to_inject: &str, is_types
                 if let Some(exec_path) = executable_path {
                     let result = start_process_detached_(&exec_path);
                     if !result {
-                        println!("failed to start process detached.")
+                        ws_stream.send(Message::Text("failed to start process detached.".to_string())).await.unwrap();
                     }
                 }
             }

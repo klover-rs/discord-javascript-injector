@@ -88,9 +88,7 @@ pub async fn pack_asar_ws(path: &PathBuf, dest: &PathBuf, ws_stream: &mut WebSoc
     }
 
     let mut output_file = File::create(dest)?;
-    let bytes_written = writer.finalize(&mut output_file)?;
-
-    println!("wrote {} bytes to {:?}", bytes_written * 1000, dest);
+    let _bytes_written = writer.finalize(&mut output_file)?;
 
     Ok(())
 }
