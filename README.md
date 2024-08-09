@@ -35,8 +35,20 @@ fn main() {
 }
 ```
 
+## Another cool feature!
+Well, since i expect that this project will be used in some gui applications, i decided to make an ws (websocket) feature, which allows you to connect the library to your own websocket server to receive messages about the progress of the injection.
+
+to use the ws feature you can add this to your cargo.toml
+
+```toml
+[dependencies]
+discord_injector-lib = { version = "x.x.x" features = ["ws"] }
+```
+please note that `x.x.x` is a place holder. version from 0.3.0 and above support this feature :)
+
 ### Check it out on crates.io!
 I also created a library on crates.io, here is the [link](https://crates.io/crates/discord_injector-lib) to it
 
 ### IMPORTANT
 This project might break your client. in case of client breaks, please reinstall discord for your platform. 
+
