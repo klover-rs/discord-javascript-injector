@@ -17,10 +17,10 @@ dirs = "5.0.1"
 anyhow = "1.0.86"
 serde = { version = "1.0.204", features = ["derive"] }
 rayon = "1.10.0"
-url = "2.5.2"
-tokio-tungstenite = "0.16"
-tungstenite = "0.17"
-futures-util = "0.3.30"
+url = { version = "2.5.2", optional = true }
+tokio-tungstenite = { version = "0.16", optional = true }
+tungstenite = { version = "0.17", optional = true }
+futures-util = { version = "0.3.30", optional = true }
 tokio = { version = "1.39.2", features = ["full"] }
 swc_ecma_ast = "0.118.0"
 swc_common = "0.37.0"
@@ -32,3 +32,7 @@ swc_ecma_visit = "0.104.2"
 
 [build-dependencies]
 cc = "1.1.7"
+
+[features]
+default = []
+ws = ["futures-util", "tokio-tungstenite", "url", "tungstenite"]

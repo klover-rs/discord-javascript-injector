@@ -2,12 +2,15 @@ use std::{fs::{self, File}, io::{BufRead, BufReader, Write}, path::PathBuf};
 use anyhow::{anyhow, Result};
 use std::time::Duration;
 use crate::{asar::*, constants::{CORE_ASAR_BACKUP_FILE, CORE_ASAR_FILE}, targets::{self, find_target_client_path}, util::search_file};
+#[cfg(feature = "ws")]
 use futures_util::SinkExt;
 
 #[cfg(target_os = "windows")]
 use crate::util::{get_pid_by_name, get_executable_path, terminate_process_by_pid, start_process_detached_};
 
+#[cfg(feature = "ws")]
 use tokio_tungstenite::connect_async;
+#[cfg(feature = "ws")]
 use tokio_tungstenite::tungstenite::Message;
 
 use swc_common::SourceMap;
@@ -62,6 +65,7 @@ fn gen_javascript(content: &str) -> String {
 }
 
 
+#[cfg(feature = "ws")]
 pub async fn inject_ws(which_discord: &str, javascript_to_inject: &str, is_typescript: bool, ws_url: &str) -> Result<()> {
 
     let url = url::Url::parse(&ws_url)?;
@@ -157,7 +161,19 @@ pub fn inject(which_discord: &str, javascript_to_inject: &str, is_typescript: bo
         return Err(anyhow!("couldnt find target client path"))
     };
 
-    
+    let mut pid: Option<u32> = None;
+
+    #[cfg(target_os = "windows")]
+    {
+        let pid_ = get_pid_by_name(&format!("{}.exe", &which_discord));
+        
+        if pid_ != 0 {
+            pid = Some(pid_);
+        } else {
+            println!("no process found with pid: {}", pid_);
+        }
+    }
+
 
 
     match search_file(&target_client, CORE_ASAR_FILE) {
@@ -166,6 +182,20 @@ pub fn inject(which_discord: &str, javascript_to_inject: &str, is_typescript: bo
             if let Ok(metadata) = fs::metadata(path.join(CORE_ASAR_BACKUP_FILE)) {
                 if metadata.is_file() {
                     return Err(anyhow!("cannot inject contents into an already injected file."))
+                }
+            }
+
+            
+            let mut executable_path: Option<String> = None;
+
+            #[cfg(target_os = "windows")]
+            {
+                if let Some(pid) = pid {
+                    executable_path = get_executable_path(pid);
+                    if !terminate_process_by_pid(pid) {
+                        return Err(anyhow!("failed to terminate process."))
+                    };
+                    std::thread::sleep(Duration::from_secs(2)); // wait for 2 seconds so that the process can be killed
                 }
             }
 
@@ -188,6 +218,16 @@ pub fn inject(which_discord: &str, javascript_to_inject: &str, is_typescript: bo
             pack_asar(&dest_path, &path.join(CORE_ASAR_FILE))?;
 
             fs::remove_dir_all(&dest_path)?;
+
+            #[cfg(target_os = "windows")]
+            {
+                if let Some(exec_path) = executable_path {
+                    let result = start_process_detached_(&exec_path);
+                    if !result {
+                        println!("failed to start process detached.");
+                    }
+                }
+            }
 
         }
         None => {

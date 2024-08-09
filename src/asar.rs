@@ -58,14 +58,18 @@ pub fn extract_asar(asar_file: &PathBuf, output: &PathBuf) -> AsarResult<()> {
     Ok(())
 }
 
-
+#[cfg(feature = "ws")]
 use tokio_tungstenite::tungstenite::Message;
+#[cfg(feature = "ws")]
 use futures_util::sink::SinkExt;
+#[cfg(feature = "ws")]
 use tokio_tungstenite::WebSocketStream;
+#[cfg(feature = "ws")]
 use tokio::net::TcpStream;
+#[cfg(feature = "ws")]
 use tokio_tungstenite::MaybeTlsStream;
 
-
+#[cfg(feature = "ws")]
 pub async fn pack_asar_ws(path: &PathBuf, dest: &PathBuf, ws_stream: &mut WebSocketStream<MaybeTlsStream<TcpStream>>) -> AnyResult<()> {
     let mut writer = AsarWriter::new_with_algorithm(HashAlgorithm::Sha256);
 
@@ -93,6 +97,7 @@ pub async fn pack_asar_ws(path: &PathBuf, dest: &PathBuf, ws_stream: &mut WebSoc
     Ok(())
 }
 
+#[cfg(feature = "ws")]
 pub async fn extract_asar_ws(asar_file: &PathBuf, output: &PathBuf, ws_stream: &mut WebSocketStream<MaybeTlsStream<TcpStream>>) -> AsarResult<String> {
 
     let asar_file = fs::read(asar_file)?;
