@@ -25,7 +25,7 @@ fn main() {
         println!("clinet: {:?}", client);
 
         if !client.injected {
-            inject(&client.basename, "console.log('hello world!');").unwrap();
+            inject(&client.basename, "console.log('hello world!');", false).unwrap();
         } else {
             println!("already injected");
             eject(&client.basename).unwrap();
@@ -44,7 +44,14 @@ to use the ws feature you can add this to your cargo.toml
 [dependencies]
 discord_injector-lib = { version = "x.x.x" features = ["ws"] }
 ```
-please note that `x.x.x` is a place holder. version from 0.3.0 and above support this feature :)
+please note that `x.x.x` is a place holder. version from 0.3.0 and above support this feature :).
+
+but thats not it, typescript is also now officially supported. 
+
+thanks to [swc](https://swc.rs/) its not possible to compile typescript to javascript, so enjoy type safety features with this library! 
+
+**attention tho** 
+in my tests i came to the conclusion, that enums in typescript are not being properly translated to javascript, this issue is none of my responsibility but rather swcs responsibility, so just avoid using enums, thanks :D
 
 ### Check it out on crates.io!
 I also created a library on crates.io, here is the [link](https://crates.io/crates/discord_injector-lib) to it
