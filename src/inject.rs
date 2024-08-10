@@ -79,6 +79,7 @@ pub async fn inject_ws(which_discord: &str, javascript_to_inject: &str, is_types
         return Err(anyhow!("couldnt find target client path"))
     };
 
+    #[cfg(target_os = "windows")]
     let mut pid: Option<u32> = None;
 
     #[cfg(target_os = "windows")]
@@ -101,6 +102,7 @@ pub async fn inject_ws(which_discord: &str, javascript_to_inject: &str, is_types
                 }
             }
 
+            #[cfg(target_os = "windows")]
             let mut executable_path: Option<String> = None;
 
             #[cfg(target_os = "windows")]
@@ -161,6 +163,7 @@ pub fn inject(which_discord: &str, javascript_to_inject: &str, is_typescript: bo
         return Err(anyhow!("couldnt find target client path"))
     };
 
+    #[cfg(target_os = "windows")]
     let mut pid: Option<u32> = None;
 
     #[cfg(target_os = "windows")]
@@ -185,7 +188,7 @@ pub fn inject(which_discord: &str, javascript_to_inject: &str, is_typescript: bo
                 }
             }
 
-            
+            #[cfg(target_os = "windows")]
             let mut executable_path: Option<String> = None;
 
             #[cfg(target_os = "windows")]

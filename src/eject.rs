@@ -10,6 +10,7 @@ use crate::util::{get_pid_by_name, get_executable_path, terminate_process_by_pid
 
 pub fn eject(which_discord: &str) -> Result<()> {
 
+    #[cfg(target_os = "windows")]
     let mut pid: Option<u32> = None;
 
     #[cfg(target_os = "windows")]
@@ -34,6 +35,7 @@ pub fn eject(which_discord: &str) -> Result<()> {
     match search_file(&target_client, CORE_ASAR_BACKUP_FILE) {
         Some(path) => {
 
+            #[cfg(target_os = "windows")]
             let mut executable_path: Option<String> = None;
 
             #[cfg(target_os = "windows")]
