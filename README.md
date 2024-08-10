@@ -48,7 +48,7 @@ please note that `x.x.x` is a place holder. version from 0.3.0 and above support
 
 but thats not it, typescript is also now officially supported. 
 
-thanks to [swc](https://swc.rs/) its possible to compile typescript to javascript, so enjoy type safety features with this library! 
+thanks to [swc](https://swc.rs/). Its possible to compile typescript to javascript, so enjoy type safety features with this library! 
 
 **attention tho** 
 in my tests i came to the conclusion, that enums in typescript are not being properly translated to javascript, this issue is none of my responsibility but rather swcs responsibility, so just avoid using enums, thanks :D
