@@ -1,6 +1,6 @@
 [package]
 name = "discord_injector-lib"
-version = "0.3.2"
+version = "0.3.21"
 edition = "2021"
 authors = ["klover-rs"]
 description = "This is a rust library which allows you to inject javascript into the discord desktop client!"
